@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class States extends Model
 {
     protected $table = 'states';
+
     protected $fillable = [
         'name',
         'abbr',

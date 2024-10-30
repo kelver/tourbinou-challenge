@@ -22,7 +22,9 @@ class Trips extends Model
     ];
 
     const MORNING = 'Morning';
+
     const AFTERNOON = 'Afternoon';
+
     const EVENING = 'Evening';
 
     protected static $translations = [
