@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\DestinationsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TripsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,11 +20,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/destinations', App\Livewire\Destinations\Index::class)->name('destinations.index');
-    Route::get('/destinations/{id?}', App\Livewire\Destinations\CreateEdit::class)->name('destinations.create-edit');
-
-    Route::get('/trips', App\Livewire\Trips\Index::class)->name('trips.index');
-    Route::get('/trips/{id?}', App\Livewire\Trips\CreateEdit::class)->name('trips.create-edit');
+    Route::resource('trips', TripsController::class);
+    Route::resource('destinations', DestinationsController::class);
 });
 
 require __DIR__.'/auth.php';
