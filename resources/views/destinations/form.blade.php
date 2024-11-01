@@ -33,13 +33,4 @@
             </div>
         </div>
     </form>
-    <script>
-
-        $(document).ready(function() {
-            @if(isset($destination))
-                $('#stateSelect').val('{{ $destination->state_id }}').trigger('change'); // Atualiza o estado
-                $('#citySelect').val('{{ $destination->city_id }}').trigger('change'); // Atualiza a cidade
-            @endif
-        });
-    </script>
 </div>
