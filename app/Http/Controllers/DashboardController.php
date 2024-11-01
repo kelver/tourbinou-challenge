@@ -4,19 +4,25 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Destinations;
-use App\Models\Trips;
+use App\Services\DashboardService;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
+    private DashboardService $dashboardService;
+
+    public function __construct(DashboardService $dashboardService)
     {
-        $destinationsCount = Destinations::count();
-        $tripsCount = Trips::count();
+        $this->dashboardService = $dashboardService;
+    }
+
+    public function index(Request $request)
+    {
+        $counts = $this->dashboardService->getCounts();
 
         return view('dashboard', [
-            'destinationsCount' => $destinationsCount,
-            'tripsCount' => $tripsCount,
+            'destinationsCount' => $counts['destinationsCount'],
+            'tripsCount' => $counts['tripsCount'],
         ]);
     }
 }
