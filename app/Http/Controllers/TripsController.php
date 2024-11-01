@@ -5,15 +5,22 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\TimeEnum;
-use App\Models\Trips;
+use App\Services\TripsService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class TripsController extends Controller
 {
+    protected TripsService $tripsService;
+
+    public function __construct(TripsService $tripsService)
+    {
+        $this->tripsService = $tripsService;
+    }
+
     public function index()
     {
-        $trips = Trips::paginate(5);
+        $trips = $this->tripsService->getTrips();
 
         return view('trips.index', compact('trips'));
     }
@@ -27,48 +34,48 @@ class TripsController extends Controller
 
     public function edit($id)
     {
-        $trips = Trips::findOrFail($id);
+        $trip = $this->tripsService->getTrip($id);
 
         return view('trips.edit', [
-            'trips' => $trips,
+            'trip' => $trip,
             'times' => TimeEnum::getTranslatedValues(),
         ]);
     }
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'destination_id' => 'required|integer|exists:destinations,id',
-            'description' => 'nullable|string',
-            'time' => ['required', Rule::in(array_keys(TimeEnum::getTranslatedValues()))], // Adicione o time aqui
-        ]);
+        $validatedData = $this->validateTrip($request);
 
-        Trips::create($validatedData);
+        $this->tripsService->createTrip($validatedData);
 
         return redirect()->route('trips.index')->with('success', 'Viagem criada com sucesso!');
     }
 
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'destination_id' => 'required|integer|exists:destinations,id',
-            'description' => 'nullable|string',
-            'time' => ['required', Rule::in(array_keys(TimeEnum::getTranslatedValues()))], // Certifique-se de validar o time aqui
-        ]);
+        $validatedData = $this->validateTrip($request);
 
-        $trip = Trips::findOrFail($id);
-        $trip->update($validatedData);
+        $trip = $this->tripsService->getTrip($id);
+        $this->tripsService->updateTrip($trip, $validatedData);
 
         return redirect()->route('trips.index')->with('success', 'Passeio atualizado com sucesso!');
     }
 
     public function destroy($id)
     {
-        $trip = Trips::findOrFail($id);
-        $trip->delete();
+        $trip = $this->tripsService->getTrip($id);
+        $this->tripsService->deleteTrip($trip);
 
         return redirect()->route('trips.index')->with('success', 'Passeio apagado com sucesso!');
+    }
+
+    protected function validateTrip(Request $request)
+    {
+        return $request->validate([
+            'name' => 'required|string|max:255',
+            'destination_id' => 'required|integer|exists:destinations,id',
+            'description' => 'nullable|string',
+            'time' => ['required', Rule::in(array_keys(TimeEnum::getTranslatedValues()))],
+        ]);
     }
 }
