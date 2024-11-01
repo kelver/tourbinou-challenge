@@ -19,6 +19,7 @@ class StateController extends Controller
 
         return response()->json(['states' => $states]);
     }
+
     public function getCities(Request $request)
     {
         $cities = Cities::select('id', 'name')
