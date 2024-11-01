@@ -21,7 +21,8 @@
             <div class="grid grid-cols-3 gap-3">
                 <div class="w-full flex flex-col">
                     <label for="name">Nome</label>
-                    <input type="text" id="name" name="name" value="{{ old('name', $trips->name ?? '') }}"
+                    <input type="text" id="name" name="name" required
+                        value="{{ old('name', $trips->name ?? '') }}"
                         class="py-3 px-4 block w-full border-gray-200 rounded-lg
                         text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50
                         disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400
@@ -29,7 +30,7 @@
                 </div>
                 <div class="w-full flex flex-col">
                     <label for="time">Horário</label>
-                    <select class="form-control" name="time" id="time">
+                    <select class="form-control" name="time" id="time" required>
                         <option value="">Selecione um horário</option>
                         @foreach($times as $value => $label)
                             <option value="{{ $value }}" {{ (old('time', $trips->time ?? '') == $value) ? 'selected' : '' }}>{{ $label }}</option>
@@ -39,7 +40,7 @@
                 <div class="w-full flex flex-col">
                     <label for="destinationSelect">Destino</label>
 
-                    <select class="form-control select2" name="destination_id"
+                    <select class="form-control select2" name="destination_id" required
                             id="destinationSelect" data-value="{{ old('destination_id', $trips->destination_id ?? '') }}">
                         <option value="">Selecione um destino..</option>
                     </select>

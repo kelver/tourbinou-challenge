@@ -9,7 +9,7 @@
             <div class="grid grid-cols-3 gap-3">
                 <div class="w-full flex flex-col">
                     <label for="state">Estado</label>
-                    <select class="form-control select2" name="state_id"
+                    <select class="form-control select2" name="state_id" required
                         id="stateSelect" data-value="{{ old('state_id', $destination->state_id ?? '') }}">>
                         <option value="">Selecione um estado..</option>
                     </select>
@@ -17,7 +17,7 @@
                 <div class="w-full flex flex-col col-span-2">
                     <label for="city">Cidade</label>
 
-                    <select class="form-control select2" name="city_id"
+                    <select class="form-control select2" name="city_id" required
                         id="citySelect" data-value="{{ old('city_id', $destination->city_id ?? '') }}">
                         <option value="">Selecione uma cidade..</option>
                     </select>
