@@ -4,16 +4,23 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Trips;
+use App\Services\StoreService;
 
 class StoreController extends Controller
 {
+    protected StoreService $storeService;
+
+    public function __construct(StoreService $storeService)
+    {
+        $this->storeService = $storeService;
+    }
+
     public function index()
     {
-        $tripsCount = Trips::with('destination.city.state')->get();
+        $trips = $this->storeService->getTrips();
 
         return view('home', [
-            'trips' => $tripsCount,
+            'trips' => $trips,
         ]);
     }
 }
