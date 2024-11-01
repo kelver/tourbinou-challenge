@@ -29,7 +29,7 @@ const LocationSelector = (() => {
 
     const loadCities = (stateId) => {
         $.ajax({
-            url: `${apiBaseUrl}/cities/${stateId}`,
+            url: `${apiBaseUrl}/states/${stateId}/cities`,
             method: 'GET',
             success: (data) => {
                 populateCities(data.cities);
