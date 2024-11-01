@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Destinations;
+use App\Services\DestinationsService;
 use Illuminate\Http\Request;
 
 class DestinationsController extends Controller
 {
+    private DestinationsService $destinationsService;
+
+    public function __construct(DestinationsService $destinationsService)
+    {
+        $this->destinationsService = $destinationsService;
+    }
+
     public function index()
     {
-        $destinations = Destinations::paginate(5);
+        $destinations = $this->destinationsService->index();
 
         return view('destinations.index', compact('destinations'));
     }
@@ -23,41 +30,28 @@ class DestinationsController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'state_id' => 'required|integer',
-            'city_id' => 'required|integer',
-        ]);
-
-        Destinations::create($validatedData);
+        $this->destinationsService->create($request->all());
 
         return redirect()->route('destinations.index')->with('success', 'Destino criado com sucesso!');
     }
 
-    public function show(Destinations $destination)
+    public function edit(int $id)
     {
-        return view('destinations.show', compact('destination'));
-    }
+        $destination = $this->destinationsService->index()->find($id);
 
-    public function edit(Destinations $destination)
-    {
         return view('destinations.edit', compact('destination'));
     }
 
-    public function update(Request $request, Destinations $destination)
+    public function update(Request $request, int $id)
     {
-        $validatedData = $request->validate([
-            'state_id' => 'required|integer',
-            'city_id' => 'required|integer',
-        ]);
-
-        $destination->update($validatedData);
+        $this->destinationsService->update($id, $request->all());
 
         return redirect()->route('destinations.index')->with('success', 'Destino atualizado com sucesso!');
     }
 
-    public function destroy(Destinations $destination)
+    public function destroy(int $id)
     {
-        $destination->delete();
+        $this->destinationsService->delete($id);
 
         return redirect()->route('destinations.index')->with('success', 'Destino excluído com sucesso!');
     }
