@@ -24,9 +24,8 @@ class DestinationsController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'location' => 'required|string|max:255',
+            'state_id' => 'required|integer',
+            'city_id' => 'required|integer',
         ]);
 
         Destinations::create($validatedData);
@@ -44,12 +43,11 @@ class DestinationsController extends Controller
         return view('destinations.edit', compact('destination'));
     }
 
-    public function update(Request $request, Destination $destination)
+    public function update(Request $request, Destinations $destination)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'location' => 'required|string|max:255',
+            'state_id' => 'required|integer',
+            'city_id' => 'required|integer',
         ]);
 
         $destination->update($validatedData);
