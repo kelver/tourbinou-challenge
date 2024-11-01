@@ -14,7 +14,7 @@ class DestinationsFactory extends Factory
 
     public function definition(): array
     {
-        $city = Cities::inRandomOrder()->first();
+        $city = Cities::inRandomOrder()->first() ?? Cities::factory()->create();
 
         return [
             'city_id' => $city->id,

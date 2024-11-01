@@ -17,7 +17,7 @@ class TripsFactory extends Factory
         return [
             'name' => $this->faker->sentence(3),
             'time' => $this->faker->randomElement(['Morning', 'Afternoon', 'Evening']),
-            'destination_id' => Destinations::inRandomOrder()->first()->id,
+            'destination_id' => Destinations::inRandomOrder()->first()->id ?? Destinations::factory(),
             'description' => $this->faker->words(20, true),
         ];
     }
