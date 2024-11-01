@@ -34,4 +34,9 @@ class DestinationsRepository
     {
         return $destination->delete();
     }
+
+    public function count(): int
+    {
+        return Destinations::count();
+    }
 }

@@ -17,4 +17,9 @@ class TripsRepository
     {
         return Trips::findOrFail($id);
     }
+
+    public function count(): int
+    {
+        return Trips::count();
+    }
 }
