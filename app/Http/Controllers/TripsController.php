@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enums\TimeEnum;
-use App\Models\Destinations;
 use App\Models\Trips;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
